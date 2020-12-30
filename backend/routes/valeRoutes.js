@@ -9,7 +9,7 @@ import {
 	getValesActivos,
 	getValesPendientes,
 	getValesAdeudos,
-	editarNumHerramientas,
+	actualizarValePendiente,
 } from '../controllers/valeController.js';
 import { protect } from '../middleware/authMiddleware.js';
 
@@ -20,7 +20,7 @@ router.route('/pendientes').get(protect, getValesPendientes);
 router
 	.route('/pendientes/:id/finalizar')
 	.put(protect, actualizarValeAEntregado);
-router.route('/pendientes/:id/editar').put(protect, editarNumHerramientas);
+router.route('/pendientes/:id/editar').put(protect, actualizarValePendiente);
 router.route('/adeudos').get(protect, getValesAdeudos);
 router.route('/:id').get(protect, getValeById);
 export default router;

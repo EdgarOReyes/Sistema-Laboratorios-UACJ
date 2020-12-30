@@ -21,6 +21,19 @@ const valeHerramientasSchema = mongoose.Schema(
 			},
 		],
 
+		itemsEntregados: [
+			{
+				nombre: { type: String, required: true },
+				cant: { type: Number, required: true },
+				imagen: { type: String, required: true },
+				herramienta: {
+					type: mongoose.Schema.Types.ObjectId,
+					required: true,
+					ref: 'Herramienta',
+				},
+			},
+		],
+
 		carrera: {
 			type: String,
 			required: false,
@@ -58,6 +71,7 @@ const valeHerramientasSchema = mongoose.Schema(
 
 		nombreDevolucion: {
 			type: String,
+			default: '',
 		},
 
 		estatus: {

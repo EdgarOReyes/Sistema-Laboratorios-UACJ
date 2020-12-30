@@ -8,16 +8,18 @@ import Herramienta from '../models/herramientaModel.js';
 const getHerramientas = asyncHandler(async (req, res) => {
 	const pageSize = 12;
 	const page = Number(req.query.pageNumber) || 1;
+	const caseta = req.query.caseta || 'D1-105';
 	const keyword = req.query.keyword
 		? {
 				nombre: {
 					$regex: req.query.keyword,
 					$options: 'i',
 				},
+				caseta,
 		  }
 		: {};
-	const count = await Herramienta.countDocuments({ ...keyword });
-	const herramientas = await Herramienta.find({ ...keyword })
+	const count = await Herramienta.countDocuments({ ...keyword, caseta });
+	const herramientas = await Herramienta.find({ ...keyword, caseta })
 		.limit(pageSize)
 		.skip(pageSize * (page - 1));
 	res.json({ herramientas, page, pages: Math.ceil(count / pageSize) });

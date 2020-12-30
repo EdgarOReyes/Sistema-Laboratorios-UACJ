@@ -38,10 +38,7 @@ const addValeItems = asyncHandler(async (req, res) => {
 // @access  Privado
 
 const getValeById = asyncHandler(async (req, res) => {
-	const vale = await Vale.findById(req.params.id).populate(
-		'usuario',
-		'nombre correo'
-	);
+	const vale = await Vale.findById(req.params.id);
 
 	if (vale) {
 		res.json(vale);
@@ -83,7 +80,7 @@ const getMisVales = asyncHandler(async (req, res) => {
 	res.json(vales);
 });
 
-// @desc    Obtiene los vales
+// @desc    Obtiene todos tipo de vales
 // @route   GET /api/vales/
 // @access  Privado
 
@@ -93,15 +90,27 @@ const getVales = asyncHandler(async (req, res) => {
 	res.json(vales);
 });
 
+// @desc    Obtiene los vales entregados
+// @route   GET /api/vales/entregados
+// @access  Privado
+
 const getValesActivos = asyncHandler(async (req, res) => {
 	const vales = await Vale.find({ estatus: 'Entregado' });
 	res.json(vales);
 });
 
+// @desc    Obtiene los vales pendientes
+// @route   GET /api/vales/pendientes
+// @access  Privado
+
 const getValesPendientes = asyncHandler(async (req, res) => {
 	const vales = await Vale.find({ estatus: 'Pendiente' });
 	res.json(vales);
 });
+
+// @desc    Obtiene los vales con adeudo
+// @route   GET /api/vales/adeudos
+// @access  Privado
 
 const getValesAdeudos = asyncHandler(async (req, res) => {
 	const vales = await Vale.find({ estatus: 'Adeudo' });
@@ -112,12 +121,13 @@ const getValesAdeudos = asyncHandler(async (req, res) => {
 // @route   PUT /api/vales/:id/finalizar
 // @access  Privado
 
-const editarNumHerramientas = asyncHandler(async (req, res) => {
-	const { valeItems } = req.body;
+const actualizarValePendiente = asyncHandler(async (req, res) => {
+	const { valeItems, itemsEntregados } = req.body;
 	const vale = await Vale.findById(req.params.id);
 
 	if (vale) {
 		vale.valeItems = valeItems;
+		vale.itemsEntregados = itemsEntregados;
 
 		const valeActualizado = await vale.save();
 		res.status(201).json(valeActualizado);
@@ -136,5 +146,5 @@ export {
 	getValesActivos,
 	getValesPendientes,
 	getValesAdeudos,
-	editarNumHerramientas,
+	actualizarValePendiente,
 };

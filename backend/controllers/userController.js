@@ -165,6 +165,7 @@ const getUsuarioById = asyncHandler(async (req, res) => {
 // @desc    Actualiza usuario
 // @route   PUT /api/usuarios/:id
 //@access   Privado/Admin
+
 const updateUsuario = asyncHandler(async (req, res) => {
 	const usuario = await Usuario.findById(req.params.id);
 
